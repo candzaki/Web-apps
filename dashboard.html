@@ -43,6 +43,53 @@
         <div class="section-heading compact">
           <div>
             <span class="eyebrow">Akses cepat</span>
+            <section class="card chart-card" style="margin-top: 22px;">
+  <div class="section-heading compact">
+    <div>
+      <span class="eyebrow">Analisis</span>
+      <h2>Grafik Perkembangan Nilai</h2>
+    </div>
+  </div>
+  <canvas id="scoreChart" height="100"></canvas>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const ctx = document.getElementById('scoreChart');
+    if (ctx) {
+      // Mengambil data riwayat dari Flask dan membaliknya agar urut dari waktu terlama ke terbaru
+      const attemptsData = {{ attempts | map(attribute='score') | list | tojson }}.reverse();
+      const labels = attemptsData.map((_, i) => `Percobaan ${i + 1}`);
+
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Skor Kuis',
+            data: attemptsData,
+            borderColor: '#3056d3',
+            backgroundColor: 'rgba(48, 86, 211, 0.1)',
+            borderWidth: 3,
+            fill: true,
+            tension: 0.4,
+            pointBackgroundColor: '#ffffff',
+            pointBorderColor: '#3056d3',
+            pointRadius: 5
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            y: { beginAtZero: true, max: 100 }
+          }
+        }
+      });
+    }
+  });
+</script>
             <h2>Alur yang cocok untuk pengguna</h2>
           </div>
         </div>
