@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}LabKimia | Dashboard{% endblock %}
+{% block body_class %}page-dashboard{% endblock %}
+
+{% block content %}
+  <main class="shell dashboard-main">
+    <section class="dashboard-hero card">
+      <div>
+        <span class="eyebrow">Dashboard belajar</span>
+        <h1>Halo, {{ user["full_name"] }}</h1>
+        <p class="lead">
+          Semua akses utama untuk web app soal ini ada di sini: mulai quiz, lihat riwayat nilai, dan cek perkembangan belajar dari waktu ke waktu.
+        </p>
+      </div>
+      <div class="dashboard-hero-actions">
+        <a href="{{ url_for('quiz') }}" class="btn btn-primary">Mulai quiz sekarang</a>
+        <a href="#riwayat" class="btn btn-secondary">Lihat riwayat</a>
+      </div>
+    </section>
+
+    <section class="dashboard-stats">
+      <article class="card stat-card">
+        <span>Total percobaan</span>
+        <strong>{{ stats["attempt_count"] }}</strong>
+      </article>
+      <article class="card stat-card">
+        <span>Nilai terbaik</span>
+        <strong>{{ stats["best_score"] }}</strong>
+      </article>
+      <article class="card stat-card">
+        <span>Rata-rata nilai</span>
+        <strong>{{ stats["average_score"] }}</strong>
+      </article>
+      <article class="card stat-card">
+        <span>Soal tersedia</span>
+        <strong>{{ total_questions }}</strong>
+      </article>
+    </section>
+
+    <section class="dashboard-grid">
+      <div class="card">
+        <div class="section-heading compact">
+          <div>
+            <span class="eyebrow">Akses cepat</span>
+            <h2>Alur yang cocok untuk pengguna</h2>
+          </div>
+        </div>
+        <div class="flow-list">
+          <article>
+            <strong>1. Masuk ke quiz</strong>
+            <p>Layout quiz dibuat fokus, dengan sidebar progres, timer, dan navigasi nomor soal.</p>
+          </article>
+          <article>
+            <strong>2. Submit dan nilai otomatis</strong>
+            <p>Hasil dihitung di server agar riwayat nilai konsisten dan dapat disimpan ke akun.</p>
+          </article>
+          <article>
+            <strong>3. Review pembahasan</strong>
+            <p>Setiap percobaan punya halaman hasil tersendiri yang bisa dibuka lagi kapan saja.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="card insight-card">
+        <span class="eyebrow">Catatan desain</span>
+        <h2>Kenapa tampilan ini tidak “terlalu AI”</h2>
+        <ul class="plain-list">
+          <li>Palet warna dibuat lebih tenang dan tidak terlalu neon.</li>
+          <li>Komponen memakai ritme visual yang konsisten, bukan efek berlebihan.</li>
+          <li>Tipografi dan ruang kosong lebih dominan agar terasa seperti produk edukasi profesional.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card history-card" id="riwayat">
+      <div class="section-heading compact">
+        <div>
+          <span class="eyebrow">Riwayat hasil</span>
+          <h2>Percobaan terbaru</h2>
+        </div>
+        <p>Riwayat tersimpan per akun dan bisa dibuka lagi untuk review detail.</p>
+      </div>
+
+      {% if attempts %}
+        <div class="history-list">
+          {% for attempt in attempts %}
+            <article class="history-item">
+              <div>
+                <strong>Nilai {{ attempt["score"] }}</strong>
+                <span>{{ attempt["correct_count"] }} benar · {{ attempt["wrong_count"] }} salah · {{ attempt["blank_count"] }} kosong</span>
+              </div>
+              <div class="history-actions">
+                <span>{{ attempt["created_at"][:19].replace("T", " ") }}</span>
+                <a href="{{ url_for('result_detail', attempt_id=attempt['id']) }}">Lihat hasil</a>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty-state">
+          <strong>Belum ada riwayat</strong>
+          <p>Anda belum mengerjakan quiz. Mulai satu percobaan untuk melihat hasil tersimpan di sini.</p>
+        </div>
+      {% endif %}
+    </section>
+  </main>
+{% endblock %}
