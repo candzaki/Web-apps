@@ -1,0 +1,51 @@
+{% extends "base.html" %} {% block title %}LabKimia | Web App Quiz Kimia{% endblock %} {% block body_class %}page-landing{% endblock %} {% block content %}
+Contoh UI/UX yang lebih natural
+Web app soal kimia yang terasa seperti platform belajar sungguhan
+
+Arah desain ini dibuat lebih editorial, bersih, dan fokus ke keterbacaan. Bukan gaya “AI banget” yang terlalu ramai, tetapi tetap modern dan premium untuk produk edukasi.
+
+{% if current_user %} Masuk ke dashboard Kerjakan quiz {% else %} Buat akun gratis Login {% endif %}
+{{ total_questions }} Soal terstruktur
+{{ topic_count }} Topik kimia
+{{ duration_minutes }} menit Durasi quiz
+LabKimia
+Dashboard
+Quiz
+Riwayat
+Profil
+Kuis Kimia Inti
+Struktur atom, asam basa, redoks, dan stoikiometri.
+
+Arah desain
+Contoh desain UI/UX untuk web app soal ini
+
+Tiga pendekatan di bawah bisa dipakai. Implementasi yang saya pasang sekarang paling dekat ke arah pertama agar terasa profesional dan tidak berlebihan.
+
+Academic Modern
+
+Palet netral, aksen biru lembut, tipografi rapi, ruang putih lega, dan card yang bersih. Cocok untuk platform edukasi yang serius tapi tetap modern.
+
+Productive Student
+
+Lebih ringan dan cepat, dengan dashboard ringkas, progress yang jelas, serta navigasi yang minim distraksi. Cocok untuk intensitas latihan tinggi.
+
+Exam Simulation
+
+Lebih fokus ke mode ujian: timer dominan, navigasi kuat, dan layout yang hemat elemen. Cocok jika ingin nuansa tryout atau CBT.
+
+Akses
+Login dan register
+
+Setiap pengguna punya akun sendiri sehingga hasil latihan tidak bercampur dan akses quiz bisa diproteksi.
+
+Belajar
+Dashboard dan riwayat nilai
+
+Skor terbaik, rata-rata nilai, serta percobaan terakhir dirangkum agar progres belajar lebih mudah dipantau.
+
+Analisis
+Pembahasan setelah submit
+
+Setiap soal menampilkan status benar atau salah, jawaban pengguna, kunci jawaban, dan pembahasan singkat.
+
+{% endblock %}
