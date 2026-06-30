@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}LabKimia{% endblock %}</title>
+  <meta name="description" content="{% block description %}Web app kuis kimia dengan desain modern, login, dashboard, riwayat nilai, dan pembahasan lengkap.{% endblock %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  {% block head_extra %}{% endblock %}
+</head>
+<body class="{% block body_class %}page-default{% endblock %}">
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+
+  <header class="site-header">
+    <div class="shell nav-shell">
+      <a href="{{ url_for('home') }}" class="brand">
+        <span class="brand-mark">LK</span>
+        <span class="brand-copy">
+          <strong>LabKimia</strong>
+          <small>Quiz Web App</small>
+        </span>
+      </a>
+
+      <nav class="site-nav">
+        <a href="{{ url_for('home') }}">Beranda</a>
+        {% if current_user %}
+          <a href="{{ url_for('dashboard') }}">Dashboard</a>
+          <a href="{{ url_for('quiz') }}">Mulai Quiz</a>
+          <a href="{{ url_for('logout') }}" class="nav-cta nav-ghost">Logout</a>
+        {% else %}
+          <a href="{{ url_for('login') }}">Login</a>
+          <a href="{{ url_for('register') }}" class="nav-cta">Buat Akun</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="shell flash-stack">
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  {% block content %}{% endblock %}
+
+  <footer class="site-footer">
+    <div class="shell footer-shell">
+      <div>
+        <strong>LabKimia</strong>
+        <p>Web app kuis kimia dengan UI yang lebih tenang, akses login, dashboard belajar, dan pembahasan terstruktur.</p>
+      </div>
+      <div class="footer-links">
+        <a href="{{ url_for('home') }}">Beranda</a>
+        {% if current_user %}
+          <a href="{{ url_for('dashboard') }}">Dashboard</a>
+          <a href="{{ url_for('quiz') }}">Quiz</a>
+        {% else %}
+          <a href="{{ url_for('login') }}">Login</a>
+          <a href="{{ url_for('register') }}">Register</a>
+        {% endif %}
+      </div>
+    </div>
+  </footer>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>
