@@ -1,40 +1,36 @@
-import json
-import os
-import sqlite3
-from datetime import datetime
-from functools import wraps
+import streamlit as st
 
-from flask import Flask, flash, jsonify, redirect, render_template, request, session, url_for
-from werkzeug.security import check_password_hash, generate_password_hash
-
-app = Flask(__name__)
-app.secret_key = os.environ.get("SECRET_KEY", "labkimia-secret-key")
-app.config["DATABASE"] = os.environ.get(
-    "DATABASE_PATH",
-    os.path.join(app.root_path, "quiz_app.db"),
-)
-
+# 1. Data Soal
 QUIZ_DATA = [
-    {
-        "question": "Nomor atom suatu unsur menyatakan jumlah ....",
-        "difficulty": "Dasar",
-        "topic": "Struktur Atom",
-        "options": ["Neutron dalam inti", "Elektron pada kulit terluar", "Proton dalam inti", "Nukleon dalam inti"],
-        "answer": 2,
-        "explanation": "Nomor atom didefinisikan sebagai jumlah proton di dalam inti atom. Pada atom netral jumlah ini sama dengan elektron, tetapi pengertiannya tetap jumlah proton.",
-    },
-    {
-        "question": "Partikel yang bermuatan negatif dalam atom adalah ....",
-        "difficulty": "Dasar",
-        "topic": "Struktur Atom",
-        "options": ["Proton", "Elektron", "Neutron", "Nukleon"],
-        "answer": 1,
-        "explanation": "Elektron bermuatan negatif, proton bermuatan positif, dan neutron bersifat netral.",
-    },
-    {
-        "question": "Konfigurasi elektron unsur natrium dengan nomor atom 11 adalah ....",
-        "difficulty": "Dasar",
-        "topic": "Konfigurasi Elektron",
+    {"question": "Sifat koligatif larutan ditentukan oleh...", "options": ["Massa jenis", "Jumlah partikel", "Jenis ikatan", "Struktur molekul", "Reaktivitas"], "answer": 1, "explanation": "Ditentukan oleh jumlah atau rasio total partikel zat terlarut."},
+    {"question": "Fungsi utama etilen glikol pada radiator adalah...", "options": ["Pendingin saja", "Antibeku & penurun titik didih", "Pencegah karat", "Pewangi", "Pelumas"], "answer": 1, "explanation": "Etilen glikol mencegah pembekuan di musim dingin dan mencegah overheating."},
+    # Tambahkan sisa 18 soal lainnya di sini
+]
+
+# 2. Antarmuka Streamlit
+st.set_page_config(page_title="LabKimia", layout="wide")
+st.title("🧪 LabKimia - Sifat Koligatif Larutan")
+
+tab1, tab2, tab3 = st.tabs(["Dashboard", "Kerjakan Kuis", "Kalkulator Mr"])
+
+with tab1:
+    st.header("Dashboard Belajar")
+    st.metric("Total Soal", len(QUIZ_DATA))
+
+with tab2:
+    st.header("Kuis Kimia")
+    for i, q in enumerate(QUIZ_DATA):
+        st.markdown(f"**{i+1}. {q['question']}**")
+        user_answer = st.radio(f"Pilihan {i+1}", q['options'], key=f"q{i}")
+        if st.button(f"Cek Jawaban {i+1}", key=f"btn{i}"):
+            if q['options'].index(user_answer) == q['answer']:
+                st.success("Benar!")
+            else:
+                st.error(f"Salah. Penjelasan: {q['explanation']}")
+
+with tab3:
+    st.header("Kalkulator Massa Molar")
+    st.write("Fitur kalkulator Mr akan segera hadir.")        "topic": "Konfigurasi Elektron",
         "options": ["2, 8, 1", "2, 8, 2", "2, 7, 2", "2, 9"],
         "answer": 0,
         "explanation": "Natrium memiliki 11 elektron dengan konfigurasi kulit sederhana 2, 8, 1.",
