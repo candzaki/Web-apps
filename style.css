@@ -970,3 +970,38 @@ h2 {
     height: 132px;
   }
 }
+
+/* --- DARK MODE STYLES --- */
+body.dark-theme {
+  --bg: #0f172a;
+  --surface: rgba(30, 41, 59, 0.95);
+  --surface-strong: #1e293b;
+  --surface-muted: #0f172a;
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --line: rgba(255, 255, 255, 0.15);
+  --primary: #6082f6;
+  --primary-soft: rgba(96, 130, 246, 0.15);
+  background: var(--bg);
+}
+
+body.dark-theme .card, 
+body.dark-theme .stat-card,
+body.dark-theme .choice,
+body.dark-theme .review-item,
+body.dark-theme .history-item {
+  background: var(--surface-strong);
+  color: var(--text);
+  border-color: var(--line);
+}
+
+body.dark-theme .site-header {
+  background: rgba(15, 23, 42, 0.8);
+}
+
+body.dark-theme .preview-window,
+body.dark-theme .auth-form input {
+  background: var(--surface-strong);
+  color: var(--text);
+  border-color: var(--line);
+}
