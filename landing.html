@@ -1,51 +1,122 @@
-{% extends "base.html" %} {% block title %}LabKimia | Web App Quiz Kimia{% endblock %} {% block body_class %}page-landing{% endblock %} {% block content %}
-Contoh UI/UX yang lebih natural
-Web app soal kimia yang terasa seperti platform belajar sungguhan
+{% extends "base.html" %}
 
-Arah desain ini dibuat lebih editorial, bersih, dan fokus ke keterbacaan. Bukan gaya “AI banget” yang terlalu ramai, tetapi tetap modern dan premium untuk produk edukasi.
+{% block title %}LabKimia | Web App Quiz Kimia{% endblock %}
+{% block body_class %}page-landing{% endblock %}
 
-{% if current_user %} Masuk ke dashboard Kerjakan quiz {% else %} Buat akun gratis Login {% endif %}
-{{ total_questions }} Soal terstruktur
-{{ topic_count }} Topik kimia
-{{ duration_minutes }} menit Durasi quiz
-LabKimia
-Dashboard
-Quiz
-Riwayat
-Profil
-Kuis Kimia Inti
-Struktur atom, asam basa, redoks, dan stoikiometri.
+{% block content %}
+  <main class="shell landing-main">
+    <section class="hero-grid">
+      <div class="hero-copy card card-soft">
+        <span class="eyebrow">Contoh UI/UX yang lebih natural</span>
+        <h1>Web app soal kimia yang terasa seperti platform belajar sungguhan</h1>
+        <p class="lead">
+          Arah desain ini dibuat lebih editorial, bersih, dan fokus ke keterbacaan. Bukan gaya “AI banget” yang terlalu ramai, tetapi tetap modern dan premium untuk produk edukasi.
+        </p>
 
-Arah desain
-Contoh desain UI/UX untuk web app soal ini
+        <div class="hero-actions">
+          {% if current_user %}
+            <a href="{{ url_for('dashboard') }}" class="btn btn-primary">Masuk ke dashboard</a>
+            <a href="{{ url_for('quiz') }}" class="btn btn-secondary">Kerjakan quiz</a>
+          {% else %}
+            <a href="{{ url_for('register') }}" class="btn btn-primary">Buat akun gratis</a>
+            <a href="{{ url_for('login') }}" class="btn btn-secondary">Login</a>
+          {% endif %}
+        </div>
 
-Tiga pendekatan di bawah bisa dipakai. Implementasi yang saya pasang sekarang paling dekat ke arah pertama agar terasa profesional dan tidak berlebihan.
+        <div class="stat-row">
+          <article class="mini-stat">
+            <strong>{{ total_questions }}</strong>
+            <span>Soal terstruktur</span>
+          </article>
+          <article class="mini-stat">
+            <strong>{{ topic_count }}</strong>
+            <span>Topik kimia</span>
+          </article>
+          <article class="mini-stat">
+            <strong>{{ duration_minutes }} menit</strong>
+            <span>Durasi quiz</span>
+          </article>
+        </div>
+      </div>
 
-Academic Modern
+      <div class="hero-preview card">
+        <div class="preview-window">
+          <div class="preview-topbar">
+            <span></span><span></span><span></span>
+          </div>
+          <div class="preview-body">
+            <aside class="preview-sidebar">
+              <div class="preview-logo">LabKimia</div>
+              <div class="preview-nav">
+                <div class="active">Dashboard</div>
+                <div>Quiz</div>
+                <div>Riwayat</div>
+                <div>Profil</div>
+              </div>
+            </aside>
+            <div class="preview-content">
+              <div class="preview-banner">
+                <strong>Kuis Kimia Inti</strong>
+                <p>Struktur atom, asam basa, redoks, dan stoikiometri.</p>
+              </div>
+              <div class="preview-cards">
+                <article></article>
+                <article></article>
+                <article></article>
+              </div>
+              <div class="preview-question">
+                <div class="preview-question-head"></div>
+                <div class="preview-options">
+                  <span></span><span></span><span></span><span></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-Palet netral, aksen biru lembut, tipografi rapi, ruang putih lega, dan card yang bersih. Cocok untuk platform edukasi yang serius tapi tetap modern.
+    <section class="section-block">
+      <div class="section-heading">
+        <span class="eyebrow">Arah desain</span>
+        <h2>Contoh desain UI/UX untuk web app soal ini</h2>
+        <p>Tiga pendekatan di bawah bisa dipakai. Implementasi yang saya pasang sekarang paling dekat ke arah pertama agar terasa profesional dan tidak berlebihan.</p>
+      </div>
 
-Productive Student
+      <div class="design-grid">
+        <article class="card design-card">
+          <h3>Academic Modern</h3>
+          <p>Palet netral, aksen biru lembut, tipografi rapi, ruang putih lega, dan card yang bersih. Cocok untuk platform edukasi yang serius tapi tetap modern.</p>
+        </article>
+        <article class="card design-card">
+          <h3>Productive Student</h3>
+          <p>Lebih ringan dan cepat, dengan dashboard ringkas, progress yang jelas, serta navigasi yang minim distraksi. Cocok untuk intensitas latihan tinggi.</p>
+        </article>
+        <article class="card design-card">
+          <h3>Exam Simulation</h3>
+          <p>Lebih fokus ke mode ujian: timer dominan, navigasi kuat, dan layout yang hemat elemen. Cocok jika ingin nuansa tryout atau CBT.</p>
+        </article>
+      </div>
+    </section>
 
-Lebih ringan dan cepat, dengan dashboard ringkas, progress yang jelas, serta navigasi yang minim distraksi. Cocok untuk intensitas latihan tinggi.
-
-Exam Simulation
-
-Lebih fokus ke mode ujian: timer dominan, navigasi kuat, dan layout yang hemat elemen. Cocok jika ingin nuansa tryout atau CBT.
-
-Akses
-Login dan register
-
-Setiap pengguna punya akun sendiri sehingga hasil latihan tidak bercampur dan akses quiz bisa diproteksi.
-
-Belajar
-Dashboard dan riwayat nilai
-
-Skor terbaik, rata-rata nilai, serta percobaan terakhir dirangkum agar progres belajar lebih mudah dipantau.
-
-Analisis
-Pembahasan setelah submit
-
-Setiap soal menampilkan status benar atau salah, jawaban pengguna, kunci jawaban, dan pembahasan singkat.
-
+    <section class="section-block">
+      <div class="feature-grid">
+        <article class="card feature-card">
+          <span class="feature-tag">Akses</span>
+          <h3>Login dan register</h3>
+          <p>Setiap pengguna punya akun sendiri sehingga hasil latihan tidak bercampur dan akses quiz bisa diproteksi.</p>
+        </article>
+        <article class="card feature-card">
+          <span class="feature-tag">Belajar</span>
+          <h3>Dashboard dan riwayat nilai</h3>
+          <p>Skor terbaik, rata-rata nilai, serta percobaan terakhir dirangkum agar progres belajar lebih mudah dipantau.</p>
+        </article>
+        <article class="card feature-card">
+          <span class="feature-tag">Analisis</span>
+          <h3>Pembahasan setelah submit</h3>
+          <p>Setiap soal menampilkan status benar atau salah, jawaban pengguna, kunci jawaban, dan pembahasan singkat.</p>
+        </article>
+      </div>
+    </section>
+  </main>
 {% endblock %}
