@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}LabKimia | Hasil Quiz{% endblock %}
+{% block body_class %}page-result{% endblock %}
+
+{% block content %}
+  <main class="shell result-main">
+    <section class="card result-hero">
+      <div>
+        <span class="eyebrow">Hasil percobaan</span>
+        <h1>Nilai {{ attempt["score"] }}</h1>
+        <p class="lead">{{ grade["message"] }}</p>
+      </div>
+      <div class="result-hero-actions">
+        <a href="{{ url_for('quiz') }}" class="btn btn-primary">Kerjakan lagi</a>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Kembali ke dashboard</a>
+      </div>
+    </section>
+
+    <section class="result-layout">
+      <div class="card result-score-panel">
+        <div class="score-circle" style="--score: {{ attempt['score'] }};">
+          <div>
+            <strong>{{ attempt["score"] }}</strong>
+            <span>nilai</span>
+          </div>
+        </div>
+        <div class="grade-badge">{{ grade["label"] }}</div>
+        <div class="result-grid">
+          <article><span>Benar</span><strong>{{ attempt["correct_count"] }}</strong></article>
+          <article><span>Salah</span><strong>{{ attempt["wrong_count"] }}</strong></article>
+          <article><span>Kosong</span><strong>{{ attempt["blank_count"] }}</strong></article>
+          <article><span>Akurasi</span><strong>{{ accuracy }}%</strong></article>
+        </div>
+      </div>
+
+      <div class="card result-summary-card">
+        <div class="section-heading compact">
+          <div>
+            <span class="eyebrow">Ringkasan</span>
+            <h2>Review lengkap jawaban</h2>
+          </div>
+        </div>
+        <p>Setiap nomor di bawah menampilkan status jawaban, pilihan Anda, kunci jawaban, dan penjelasan singkat agar bisa dipakai sebagai bahan belajar.</p>
+        <div class="meta-inline">
+          <span>Disimpan pada {{ attempt["created_at"][:19].replace("T", " ") }}</span>
+          <span>Durasi tercatat {{ attempt["duration_seconds"] }} detik</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card review-section">
+      <div class="section-heading compact">
+        <div>
+          <span class="eyebrow">Pembahasan</span>
+          <h2>Per nomor soal</h2>
+        </div>
+      </div>
+
+      <div class="review-list">
+        {% for item in review_items %}
+          <article class="review-item {% if item.is_blank %}blank{% elif item.is_correct %}correct{% else %}wrong{% endif %}">
+            <h3>{{ item.number }}. {{ item.question }}</h3>
+            <div class="review-info">
+              <span><b>Status:</b> {% if item.is_blank %}Kosong{% elif item.is_correct %}Benar{% else %}Salah{% endif %}</span>
+              <span><b>Topik:</b> {{ item.topic }}</span>
+              <span><b>Level:</b> {{ item.difficulty }}</span>
+              <span><b>Jawaban Anda:</b> {% if item.selected is none %}Tidak dijawab{% else %}{{ "ABCD"[item.selected] }}. {{ item.selected_text }}{% endif %}</span>
+              <span><b>Kunci:</b> {{ "ABCD"[item.correct_answer] }}. {{ item.correct_text }}</span>
+            </div>
+            <p>{{ item.explanation }}</p>
+          </article>
+        {% endfor %}
+      </div>
+    </section>
+  </main>
+{% endblock %}
