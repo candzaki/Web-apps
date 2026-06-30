@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% if auth_mode == "register" %}
+  {% set page_title = "Buat Akun" %}
+  {% set heading = "Buat akun untuk mulai latihan" %}
+  {% set description = "Daftar sekali, lalu akses quiz, dashboard, dan riwayat nilai Anda." %}
+{% else %}
+  {% set page_title = "Login" %}
+  {% set heading = "Masuk ke akun Anda" %}
+  {% set description = "Lanjutkan latihan dari dashboard dan lihat hasil percobaan sebelumnya." %}
+{% endif %}
+
+{% block title %}LabKimia | {{ page_title }}{% endblock %}
+{% block body_class %}page-auth{% endblock %}
+
+{% block content %}
+  <main class="shell auth-main">
+    <section class="auth-layout">
+      <div class="card auth-aside">
+        <span class="eyebrow">Akses akun</span>
+        <h1>{{ heading }}</h1>
+        <p class="lead">{{ description }}</p>
+
+        <div class="auth-points">
+          <article>
+            <strong>Progress pribadi</strong>
+            <span>Data hasil latihan tersimpan per akun.</span>
+          </article>
+          <article>
+            <strong>Quiz terproteksi</strong>
+            <span>Hanya pengguna login yang bisa mengerjakan dan menyimpan nilai.</span>
+          </article>
+          <article>
+            <strong>Review terstruktur</strong>
+            <span>Setelah submit, pembahasan tampil rapi per nomor soal.</span>
+          </article>
+        </div>
+      </div>
+
+      <div class="card auth-form-card">
+        <div class="auth-form-head">
+          <h2>{{ page_title }}</h2>
+          <p>
+            {% if auth_mode == "register" %}
+              Sudah punya akun? <a href="{{ url_for('login') }}">Login di sini</a>
+            {% else %}
+              Belum punya akun? <a href="{{ url_for('register') }}">Daftar sekarang</a>
+            {% endif %}
+          </p>
+        </div>
+
+        <form method="post" class="auth-form">
+          {% if auth_mode == "register" %}
+            <label>
+              <span>Nama lengkap</span>
+              <input type="text" name="full_name" placeholder="Masukkan nama lengkap" required>
+            </label>
+          {% endif %}
+
+          <label>
+            <span>Email</span>
+            <input type="email" name="email" placeholder="nama@email.com" required>
+          </label>
+
+          <label>
+            <span>Password</span>
+            <input type="password" name="password" placeholder="Minimal 8 karakter yang mudah Anda ingat" required>
+          </label>
+
+          <button type="submit" class="btn btn-primary btn-block">
+            {% if auth_mode == "register" %}Buat akun{% else %}Masuk{% endif %}
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
+{% endblock %}
