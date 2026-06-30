@@ -229,4 +229,59 @@ if (dataNode) {
   renderTimer();
   startTimer();
   observeVisibleQuestion();
+  // ... kode observeVisibleQuestion() ...
+  // submitBtn.addEventListener(...)
+  // resetBtn.addEventListener(...)
+  // loadState();
+  // renderQuestions(); ... dst
+
+  // --- TAMBAHKAN LOGIKA KALKULATOR DI BAWAH INI ---
+  const calcBtn = document.getElementById("calcBtn");
+  const formulaInput = document.getElementById("formulaInput");
+  const calcResult = document.getElementById("calcResult");
+
+  if (calcBtn && formulaInput) {
+    // Data Ar sederhana untuk unsur umum
+    const atomicWeights = {
+      H: 1, C: 12, N: 14, O: 16, Na: 23, Mg: 24, 
+      Al: 27, S: 32, Cl: 35.5, K: 39, Ca: 40, Fe: 56
+    };
+
+    calcBtn.addEventListener("click", () => {
+      let formula = formulaInput.value.trim();
+      if (!formula) return;
+
+      try {
+        // Regex sederhana untuk memecah unsur dan angkanya (contoh: H2O -> H2, O)
+        const regex = /([A-Z][a-z]*)(\d*)/g;
+        let match;
+        let totalMr = 0;
+        let valid = true;
+
+        while ((match = regex.exec(formula)) !== null) {
+          let element = match[1];
+          let count = match[2] === "" ? 1 : parseInt(match[2]);
+          
+          if (atomicWeights[element]) {
+            totalMr += atomicWeights[element] * count;
+          } else {
+            valid = false;
+            calcResult.textContent = `Unsur ${element} belum didukung.`;
+            calcResult.style.color = "var(--danger)";
+            break;
+          }
+        }
+
+        if (valid && totalMr > 0) {
+          calcResult.textContent = `Mr = ${totalMr} g/mol`;
+          calcResult.style.color = "var(--primary)";
+        }
+      } catch (e) {
+        calcResult.textContent = "Format salah.";
+      }
+    });
+  }
+  // --- BATAS PENAMBAHAN KODE ---
+
+} // <-- Ini adalah penutup if (dataNode) yang sudah ada di file Anda
 }
