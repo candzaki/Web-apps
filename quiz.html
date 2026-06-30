@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}LabKimia | Kerjakan Quiz{% endblock %}
+{% block body_class %}page-quiz{% endblock %}
+
+{% block content %}
+  <main class="shell quiz-main">
+    <section class="quiz-top card">
+      <div>
+        <span class="eyebrow">Workspace quiz</span>
+        <h1>Kuis kimia 30 soal</h1>
+        <p class="lead">Jawab semua soal lalu submit. Nilai akan dihitung di server dan hasilnya tersimpan ke akun Anda.</p>
+      </div>
+      <div class="quiz-top-meta">
+        <article>
+          <span>Pengguna</span>
+          <strong>{{ user["full_name"] }}</strong>
+        </article>
+        <article>
+          <span>Durasi</span>
+          <strong>{{ duration_minutes }} menit</strong>
+        </article>
+        <article>
+          <span>Jumlah soal</span>
+          <strong>{{ total_questions }}</strong>
+        </article>
+      </div>
+    </section>
+
+    <section class="quiz-layout">
+      <div class="quiz-column">
+        <section class="quiz-overview">
+          <article class="card stat-card">
+            <span>Progress</span>
+            <strong id="progressText">0 / {{ total_questions }}</strong>
+            <div class="progress-line"><div id="progressBar"></div></div>
+          </article>
+          <article class="card stat-card">
+            <span>Terjawab</span>
+            <strong id="answeredText">0</strong>
+          </article>
+          <article class="card stat-card">
+            <span>Belum dijawab</span>
+            <strong id="remainingText">{{ total_questions }}</strong>
+          </article>
+          <article class="card stat-card">
+            <span>Timer</span>
+            <strong id="timerText">{{ "%02d:00"|format(duration_minutes) }}</strong>
+          </article>
+        </section>
+
+        <section class="card question-wrapper">
+          <div class="section-heading compact">
+            <div>
+              <span class="eyebrow">Bank soal</span>
+              <h2>Kerjakan dengan fokus</h2>
+            </div>
+            <p>Progress tersimpan di browser selama sesi ini berlangsung.</p>
+          </div>
+          <div id="questionList" class="question-list"></div>
+        </section>
+      </div>
+
+      <aside class="quiz-sidebar">
+        <section class="card sidebar-panel">
+          <div class="section-heading compact">
+            <div>
+              <span class="eyebrow">Navigasi</span>
+              <h2>Nomor soal</h2>
+            </div>
+          </div>
+          <div id="navigatorGrid" class="navigator-grid"></div>
+        </section>
+
+        <section class="card sidebar-panel">
+          <div class="section-heading compact">
+            <div>
+              <span class="eyebrow">Aksi</span>
+              <h2>Selesaikan quiz</h2>
+            </div>
+          </div>
+          <p>Setelah submit, sistem akan membuat halaman hasil lengkap yang tersimpan di akun Anda.</p>
+          <button id="submitBtn" class="btn btn-primary btn-block">Submit jawaban</button>
+          <button id="resetBtn" class="btn btn-secondary btn-block">Reset jawaban</button>
+        </section>
+      </aside>
+    </section>
+  </main>
+{% endblock %}
+
+{% block scripts %}
+  <script id="quiz-data" type="application/json">{{ quiz_data|tojson }}</script>
+  <script>
+    window.QUIZ_DURATION_MINUTES = {{ duration_minutes }};
+    window.QUIZ_STORAGE_KEY = "labkimia-user-{{ user['id'] }}-quiz";
+    window.QUIZ_SUBMIT_URL = "{{ url_for('submit_quiz') }}";
+  </script>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+{% endblock %}
